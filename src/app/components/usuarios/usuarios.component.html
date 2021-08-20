@@ -1,0 +1,120 @@
+<div class="container mt-4">
+  <div class="row mt-4">
+    <div>
+      <h2 class="text-rigth">
+        Usuarios
+      </h2>
+    </div>
+    <hr>
+    <div class="col">
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Gusto</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios" >
+            <th scope="row">{{ usuario.id }}</th>
+            <td>{{ usuario.nombres}}</td>
+            <td>{{ usuario.apellidos}}</td>
+            <td>{{ usuario.telefono }}</td>
+            <td>{{ usuario.cedula}}</td>
+            <td>{{ usuario.gusto.gusto}}</td>
+            <td> <btn type="button" (click)="cargar(usuario)" class="btn btn-primary"> Actualizar </btn> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col">
+     <h2> {{ title.titleH1 }} Usuario </h2>
+    </div>
+  </div>
+  <hr>
+  <div class="col">
+    <form #usuarioForm="ngForm" (ngSubmit)="create(usuarioForm)" novalidate>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Cédula</label>
+        <input type="text" class="form-control" id="nombres" [(ngModel)]="usuario.cedula" name="cedula" required pattern="[0-9]+" #cedula="ngModel">
+        <div class="mt-2" *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)" >
+          <div *ngIf="cedula.errors.required" class="text-danger">
+            * El campo cédula es un campo es requerido
+          </div>
+          <div *ngIf="cedula.errors.pattern" class="text-danger">
+            * El campo cédula solo admite números
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nombres</label>
+        <input type="text" class="form-control" id="nombres" [(ngModel)]="usuario.nombres" name="nombres" pattern="^[a-zA-Z\s]+" required #nombres="ngModel">
+        <div class="mt-2" *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)" >
+          <div *ngIf="nombres.errors.required" class="text-danger">
+            * El campo nombres es un campo es requerido
+          </div>
+          <div *ngIf="nombres.errors.pattern" class="text-danger">
+            * El campo nombres solo admite letras
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label" >Apellidos</label>
+        <input type="text" class="form-control" id="apellidos" [(ngModel)]="usuario.apellidos" name="apellidos" pattern="^[a-zA-Z\s]+" required #apellidos="ngModel">
+        <div class="mt-2" *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)" >
+          <div *ngIf="apellidos.errors.required" class="text-danger">
+            * El campo nombres es un campo es requerido
+          </div>
+          <div *ngIf="apellidos.errors.pattern" class="text-danger">
+            * El campo nombres solo admite letras
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label" >Teléfono</label>
+        <input type="text" class="form-control" id="telefono" [(ngModel)]="usuario.telefono" name="telefono" required pattern="[0-9]+" #telefono="ngModel">
+        <div class="mt-2" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" >
+          <div *ngIf="telefono.errors.required" class="text-danger">
+            * El campo teléfono es un campo es requerido
+          </div>
+          <div *ngIf="telefono.errors.pattern" class="text-danger">
+            * El campo teléfono solo admite números
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Correo</label>
+        <input type="email" class="form-control" id="correo" [(ngModel)]="usuario.correo" name="correo" required email #correo="ngModel">
+        <div class="mt-2" *ngIf="correo.invalid && (correo.dirty || correo.touched)" >
+          <div *ngIf="correo.errors.required" class="text-danger">
+            * El campo correo es un campo es requerido
+          </div>
+          <div *ngIf="correo.errors.email" class="text-danger">
+            * El campo correo debe contener un formato valido.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Gusto</label>
+        <select [compareWith]="compareUsuario" class="form-control" [(ngModel)]="usuario.gusto" name="gusto" required>
+          <option [ngValue] = "undefined"> Seleccione un gusto </option>
+          <option *ngFor="let gusto of gustos" [ngValue] = "gusto">
+            {{ gusto.gusto }}
+          </option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block mb-4 form-control" [disabled]="!usuarioForm.form.valid">{{ title.titleBtn }}</button>
+    </form>
+
+  </div>
+
+</div>
