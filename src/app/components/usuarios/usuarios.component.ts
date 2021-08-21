@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuarios } from './usuarios';
+import { Usuarios } from '../../models/usuarios';
 import { UsuarioService } from '../../services/usuario.service';
-import { Gustos } from './gustos';
-import swal from 'sweetalert2';
+import { Gustos } from '../../models/gustos';
 import { NgForm } from '@angular/forms';
+import {AlertService} from "../../services/alert.service";
 
 
 interface Titles {
@@ -28,8 +28,10 @@ export class UsuariosComponent implements OnInit {
 
   public title : Titles;
 
+  public formUsuario = false;
 
-  constructor(private serviceUsuario: UsuarioService ) {
+
+  constructor(private serviceUsuario: UsuarioService, private alert: AlertService ) {
 
   }
 
@@ -53,16 +55,18 @@ export class UsuariosComponent implements OnInit {
       console.log('update');
       this.serviceUsuario.putUpateUsuario(this.usuario).subscribe(
         usuarios => {
-          this.Swall('Se ha actualiazo sastifactoriamente el usuario','center','success', 2500);
+          this.alert.Swall('Se ha actualiazo sastifactoriamente el usuario','center','success', 2500);
           this.usuario = new Usuarios();
+          this.formUsuario = false;
           this.ngOnInit();
         }
       )
     }else{
       this.serviceUsuario.postUsuario(this.usuario).subscribe(
         usuarios => {
-          this.Swall('Se ha creado sastifactoriamente el usuario','center','success', 2500);
+          this.alert.Swall('Se ha creado sastifactoriamente el usuario','center','success', 2500);
           this.usuario = new Usuarios();
+          this.formUsuario = false;
           this.ngOnInit();
         }
       )
@@ -72,17 +76,7 @@ export class UsuariosComponent implements OnInit {
   public cargar(usuario: Usuarios): void {
     this.titulo('Actualizar', 'Modificar');
     this.usuario = usuario;
-    console.log('Usuario',this.usuario);
-  }
-
-  public Swall(title,position, icon,  timer){
-    swal.fire({
-      position: position,
-      icon,
-      title,
-      showConfirmButton: false,
-      timer
-    });
+    this.formUsuario = true;
   }
 
   public compareUsuario(o1:Gustos, o2:Gustos){
@@ -95,6 +89,13 @@ export class UsuariosComponent implements OnInit {
       titleBtn
     }
     return this.title;
+  }
+
+  public formUser(){
+    this.formUsuario = true;
+    this.titulo('Crear', 'Guardar');
+    this.usuario = new Usuarios();
+    console.log(this.formUsuario );
   }
 
 }

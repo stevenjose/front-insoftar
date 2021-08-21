@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Usuarios } from '../components/usuarios/usuarios';
+import { Usuarios } from '../models/usuarios';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Gustos } from '../components/usuarios/gustos';
+import { Gustos } from '../models/gustos';
 
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable, throwError  } from "rxjs";
